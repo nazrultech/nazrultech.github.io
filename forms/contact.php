@@ -27,7 +27,7 @@ $contact->subject = $_POST['subject'];      // Assuming 'subject' is the name at
 $contact->smtp = array(
   'host' => 'smtp.gmail.com',
   'username' => 'nazrultech@gmail.com',
-  'password' => 'NCjun2009',
+  'password' => 'rvxb ohcf ekal ezf',
   'port' => '587',
   'encryption' => 'tls'
 );
