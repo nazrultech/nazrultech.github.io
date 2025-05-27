@@ -24,14 +24,13 @@ $contact->from_email = $_POST['email'];     // Assuming 'email' is the name attr
 $contact->subject = $_POST['subject'];      // Assuming 'subject' is the name attribute of the input field for email subject
 
 // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-/*
 $contact->smtp = array(
-  'host' => 'example.com',
-  'username' => 'example',
-  'password' => 'pass',
-  'port' => '587'
+  'host' => 'smtp.gmail.com',
+  'username' => 'nazrultech@gmail.com',
+  'password' => 'NCjun2009',
+  'port' => '587',
+  'encryption' => 'tls'
 );
-*/
 
 // Adding messages to the email body
 $contact->add_message($_POST['name'], 'From');
