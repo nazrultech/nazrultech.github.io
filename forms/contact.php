@@ -1,42 +1,44 @@
 <?php
-/**
- * Requires the "PHP Email Form" library
- * The "PHP Email Form" library is available only in the pro version of the template
- * The library should be uploaded to: vendor/php-email-form/php-email-form.php
- * For more info and help: https://bootstrapmade.com/php-email-form/
- */
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+header("Content-Type: application/json");
 
 // Replace contact@example.com with your real receiving email address
 $receiving_email_address = 'nazrultech@gmail.com';
 
-if (file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php')) {
+$php_email_form = '../assets/vendor/php-email-form/php-email-form.php';
+if (file_exists($php_email_form)) {
     include($php_email_form);
 } else {
-    die('Unable to load the "PHP Email Form" Library!');
+    http_response_code(500);
+    echo json_encode(['error' => 'Unable to load the PHP Email Form Library!']);
+    exit;
 }
 
 $contact = new PHP_Email_Form;
 $contact->ajax = true;
 
 $contact->to = $receiving_email_address;
-$contact->from_name = $_POST['name'];       // Assuming 'name' is the name attribute of the input field for sender's name
-$contact->from_email = $_POST['email'];     // Assuming 'email' is the name attribute of the input field for sender's email
-$contact->subject = $_POST['subject'];      // Assuming 'subject' is the name attribute of the input field for email subject
+$contact->from_name = $_POST['name'] ?? 'No Name';
+$contact->from_email = $_POST['email'] ?? 'noemail@example.com';
+$contact->subject = $_POST['subject'] ?? 'No Subject';
 
-// Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
 $contact->smtp = array(
   'host' => 'smtp.gmail.com',
   'username' => 'nazrultech@gmail.com',
-  'password' => 'rvxbohcfekalezf',
+  'password' => 'dzlg bepf ftab cell', // replace this with your regenerated Gmail App Password
   'port' => '587',
   'encryption' => 'tls'
 );
 
-// Adding messages to the email body
-$contact->add_message($_POST['name'], 'From');
-$contact->add_message($_POST['email'], 'Email');
-$contact->add_message($_POST['message'], 'Message', 10); // Assuming 'message' is the name attribute of the textarea for the message body
+$contact->add_message($_POST['name'] ?? '', 'From');
+$contact->add_message($_POST['email'] ?? '', 'Email');
+$contact->add_message($_POST['message'] ?? '', 'Message', 10);
 
-// Sending the email
-echo $contact->send();
+if ($contact->send()) {
+    echo json_encode(['success' => 'Message sent successfully.']);
+} else {
+    http_response_code(500);
+    echo json_encode(['error' => 'Failed to send message.']);
+}
 ?>
